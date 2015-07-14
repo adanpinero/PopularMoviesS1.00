@@ -1,4 +1,6 @@
 package com.example.android.popularmoviess100;
+//todo Add Icon to the App
+//todo Change name string to the App
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;

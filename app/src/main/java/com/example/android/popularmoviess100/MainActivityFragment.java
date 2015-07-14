@@ -1,5 +1,7 @@
 package com.example.android.popularmoviess100;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
@@ -9,7 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,9 +28,9 @@ import java.net.URL;
  */
 public class MainActivityFragment extends Fragment {
 
-
-
+    public ProgressDialog enProgreso; //Object to use during connection to Internet
     public MainActivityFragment() {
+
     }
 
     @Override
@@ -35,7 +39,8 @@ public class MainActivityFragment extends Fragment {
         Log.d("miPID","");
         PopularMoviesApiRequest miPOPRequest=new PopularMoviesApiRequest();
         miPOPRequest.execute();
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView= inflater.inflate(R.layout.fragment_main, container, false);
+        return rootView;
     }
 
     private class PopularMoviesApiRequest extends AsyncTask <Void,Void,String>{
@@ -45,6 +50,11 @@ public class MainActivityFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            // Create and show Connecting to Internet message / ProgressDialog during doInBackGround
+            enProgreso=new ProgressDialog(getActivity());
+            enProgreso.setIndeterminate(true);
+            enProgreso.setMessage("Conecting to Internet");
+            enProgreso.show();
         }
 
         @Override
@@ -131,11 +141,14 @@ public class MainActivityFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
+            enProgreso.dismiss(); //Close Connectiong to internet message
         }
 //todo implementar metodo que conje el JSON bruto y devuelve lo que necesito
         private void getPopularMoviesFromJson(String forecastJsonStr)
                 throws JSONException{
             Log.d("DREAL", forecastJsonStr);
+            JSONObject forecastJson = new JSONObject(forecastJsonStr);
+            JSONArray weatherArray = forecastJson.getJSONArray("list");
 
         }
     }
