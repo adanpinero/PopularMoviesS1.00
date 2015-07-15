@@ -35,13 +35,11 @@ public class MainActivityFragment extends Fragment {
 
     public ProgressDialog enProgreso; //Object to use during connection to Internet
     GridView grid;
-    String[] web = {
-            "Google",
+    CustomGridViewAdapter adapter;
 
-    } ;
-    int[] imageId = {
-            R.drawable.image1
-    };
+
+    ArrayList<URL> url_init;
+
     public MainActivityFragment() {
 
     }
@@ -53,7 +51,16 @@ public class MainActivityFragment extends Fragment {
         PopularMoviesApiRequest miPOPRequest = new PopularMoviesApiRequest();
         miPOPRequest.execute();
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        CustomGrid adapter = new CustomGrid(getActivity(), web, imageId);
+
+        url_init=new ArrayList<>();
+
+        try {
+            url_init.add(new URL("http://www.heraldo.es"));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        adapter = new CustomGridViewAdapter(getActivity(), 33, url_init);
         grid=(GridView)rootView.findViewById(R.id.grid);
         grid.setAdapter(adapter);
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -61,7 +68,7 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Toast.makeText(getActivity(), "You Clicked at " + web[+position], Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "You Clicked at ", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -175,13 +182,9 @@ public class MainActivityFragment extends Fragment {
         private void getPopularMoviesFromJson(String forecastJsonStr)
                 throws JSONException {
             ArrayList<String> posters=new ArrayList<>();
+            ArrayList<String> originalTitles=new ArrayList<>();
             Log.d("DREAL", forecastJsonStr);
             JSONObject forecastJson = new JSONObject(forecastJsonStr);
-            //JSONArray page1 = forecastJson.getJSONArray("page");
-            //for(int i=0;i<page1.length();i++){
-            //    Log.d("DREAL", page1.getString(i));
-            //}
-
             JSONArray results = forecastJson.getJSONArray("results"); // aqui todos los datos de cada peli en Array
             for(int i=0;i<results.length();i++){
                 Log.d("DREAL", results.getString(i));
@@ -189,9 +192,11 @@ public class MainActivityFragment extends Fragment {
             }
             for(int i=0;i<results.length();i++){
                 posters.add(results.getJSONObject(i).getString("backdrop_path"));
+                originalTitles.add(results.getJSONObject(i).getString("original_title"));
             }
 
             ArrayList<URL> misPostersURL=getPopularMoviesURLs(posters);
+            ActualizaAdapter(misPostersURL,originalTitles);
         }
 //todo crear metodo igual al siguiente que también devuelva Array de titulos de peliculas.
         //todo en los xml cambiar los relative view por otros apropiados
@@ -218,6 +223,10 @@ public class MainActivityFragment extends Fragment {
                 }
             }
             return misPostersURL;
+        }
+        private void ActualizaAdapter(ArrayList<URL> misPostersURL,ArrayList<String> originalTitles){
+            adapter.clear();
+            adapter.addAll(misPostersURL);
         }
     }
 
