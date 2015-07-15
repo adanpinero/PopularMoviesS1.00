@@ -193,7 +193,8 @@ public class MainActivityFragment extends Fragment {
 
             ArrayList<URL> misPostersURL=getPopularMoviesURLs(posters);
         }
-
+//todo crear metodo igual al siguiente que también devuelva Array de titulos de peliculas.
+        //todo en los xml cambiar los relative view por otros apropiados
         private ArrayList<URL> getPopularMoviesURLs(ArrayList<String> posters){
 
             final String FORECAST_BASE_URL="http://image.tmdb.org/t/p/";
