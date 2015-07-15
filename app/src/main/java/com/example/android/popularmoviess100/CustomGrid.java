@@ -14,6 +14,8 @@ package com.example.android.popularmoviess100;
         import android.widget.ImageView;
         import android.widget.TextView;
 
+        import com.squareup.picasso.Picasso;
+
 public class CustomGrid extends BaseAdapter{
     private Context mContext;
     private final String[] web;
@@ -57,7 +59,9 @@ public class CustomGrid extends BaseAdapter{
             TextView textView = (TextView) grid.findViewById(R.id.grid_text);
             ImageView imageView = (ImageView)grid.findViewById(R.id.grid_image);
             textView.setText(web[position]);
-            imageView.setImageResource(Imageid[position]);
+            //todo cargar lista de URLs de posters
+            Picasso.with(mContext).load("http://i.imgur.com/DvpvklR.png").into(imageView);
+            //imageView.setImageResource(Imageid[position]);
         } else {
             grid = (View) convertView;
         }
