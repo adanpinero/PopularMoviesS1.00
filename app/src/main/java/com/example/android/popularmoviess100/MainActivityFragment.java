@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 
 /**
@@ -29,6 +30,7 @@ import java.net.URL;
 public class MainActivityFragment extends Fragment {
 
     public ProgressDialog enProgreso; //Object to use during connection to Internet
+
     public MainActivityFragment() {
 
     }
@@ -36,14 +38,14 @@ public class MainActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d("miPID","");
-        PopularMoviesApiRequest miPOPRequest=new PopularMoviesApiRequest();
+        Log.d("miPID", "");
+        PopularMoviesApiRequest miPOPRequest = new PopularMoviesApiRequest();
         miPOPRequest.execute();
-        View rootView= inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         return rootView;
     }
 
-    private class PopularMoviesApiRequest extends AsyncTask <Void,Void,String>{
+    private class PopularMoviesApiRequest extends AsyncTask<Void, Void, String> {
         public String[] popularMovies;
 
 
@@ -51,7 +53,7 @@ public class MainActivityFragment extends Fragment {
         protected void onPreExecute() {
             super.onPreExecute();
             // Create and show Connecting to Internet message / ProgressDialog during doInBackGround
-            enProgreso=new ProgressDialog(getActivity());
+            enProgreso = new ProgressDialog(getActivity());
             enProgreso.setIndeterminate(true);
             enProgreso.setMessage("Conecting to Internet");
             enProgreso.show();
@@ -59,8 +61,8 @@ public class MainActivityFragment extends Fragment {
 
         @Override
         protected String doInBackground(Void... params) {
-            final String LOG_TAG=getClass().getName();
-            final String API_KEY="764e1a37d810cfc4ef5be76e31f7b238";
+            final String LOG_TAG = getClass().getName();
+            final String API_KEY = "764e1a37d810cfc4ef5be76e31f7b238";
             final String FORECAST_BASE_URL =
                     "http://api.themoviedb.org/3/discover/movie?";
             final String SHORT_PARAM = "sort_by";
@@ -82,6 +84,7 @@ public class MainActivityFragment extends Fragment {
                         .appendQueryParameter(API_KEY_PARAM, API_KEY)
                         .build();
                 URL url = new URL(builtUri.toString());
+                Log.d("DREAL", url.toString());
 
                 // Create the request to TheMovieDbAPI, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -134,7 +137,7 @@ public class MainActivityFragment extends Fragment {
         @Override
         protected void onPostExecute(String forecastJsonStr) {
             super.onPostExecute(forecastJsonStr);
-            if(forecastJsonStr!=null){
+            if (forecastJsonStr != null) {
                 try {
                     getPopularMoviesFromJson(forecastJsonStr);
                 } catch (JSONException e) {
@@ -143,13 +146,30 @@ public class MainActivityFragment extends Fragment {
             }
             enProgreso.dismiss(); //Close Connectiong to internet message
         }
-//todo implementar metodo que conje el JSON bruto y devuelve lo que necesito
+
+        //todo implementar metodo que conje el JSON bruto y devuelve lo que necesito
         private void getPopularMoviesFromJson(String forecastJsonStr)
-                throws JSONException{
+                throws JSONException {
+            ArrayList<String> posters=new ArrayList<>();
             Log.d("DREAL", forecastJsonStr);
             JSONObject forecastJson = new JSONObject(forecastJsonStr);
-            JSONArray weatherArray = forecastJson.getJSONArray("list");
+            //JSONArray page1 = forecastJson.getJSONArray("page");
+            //for(int i=0;i<page1.length();i++){
+            //    Log.d("DREAL", page1.getString(i));
+            //}
 
+            JSONArray results = forecastJson.getJSONArray("results"); // aqui todos los datos de cada peli en Array
+            for(int i=0;i<results.length();i++){
+                Log.d("DREAL", results.getString(i));
+
+            }
+            for(int i=0;i<results.length();i++){
+                posters.add(results.getJSONObject(i).getString("backdrop_path"));
+            }
+
+            for(int i=0;i<posters.size();i++){
+                Log.d("DREAL", posters.get(i));
+            }
         }
     }
 
