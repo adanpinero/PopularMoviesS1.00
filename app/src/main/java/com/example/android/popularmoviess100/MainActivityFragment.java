@@ -10,6 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,7 +34,14 @@ import java.util.ArrayList;
 public class MainActivityFragment extends Fragment {
 
     public ProgressDialog enProgreso; //Object to use during connection to Internet
+    GridView grid;
+    String[] web = {
+            "Google",
 
+    } ;
+    int[] imageId = {
+            R.drawable.image1
+    };
     public MainActivityFragment() {
 
     }
@@ -43,6 +53,19 @@ public class MainActivityFragment extends Fragment {
         PopularMoviesApiRequest miPOPRequest = new PopularMoviesApiRequest();
         miPOPRequest.execute();
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        CustomGrid adapter = new CustomGrid(getActivity(), web, imageId);
+        grid=(GridView)rootView.findViewById(R.id.grid);
+        grid.setAdapter(adapter);
+        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                Toast.makeText(getActivity(), "You Clicked at " + web[+position], Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
         return rootView;
     }
 
