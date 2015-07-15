@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -167,9 +168,32 @@ public class MainActivityFragment extends Fragment {
                 posters.add(results.getJSONObject(i).getString("backdrop_path"));
             }
 
+            ArrayList<URL> misPostersURL=getPopularMoviesURLs(posters);
+        }
+
+        private ArrayList<URL> getPopularMoviesURLs(ArrayList<String> posters){
+
+            final String FORECAST_BASE_URL="http://image.tmdb.org/t/p/";
+            final String RESOLUTION="w185/";
+            ArrayList<URL> misPostersURL=new ArrayList<>();
+
+
             for(int i=0;i<posters.size();i++){
-                Log.d("DREAL", posters.get(i));
+                Uri posterUri = Uri.parse(FORECAST_BASE_URL)
+                        .buildUpon()
+                        .appendEncodedPath(RESOLUTION)
+                        .appendEncodedPath(posters.get(i))
+                        .build();
+                Log.d("DREAL",posterUri.toString());
+                //URL posterURL = null;
+                try {
+                    URL posterURL = new URL(posterUri.toString());
+                    misPostersURL.add(posterURL);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
             }
+            return misPostersURL;
         }
     }
 
