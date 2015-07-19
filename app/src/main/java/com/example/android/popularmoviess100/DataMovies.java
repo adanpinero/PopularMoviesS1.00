@@ -118,7 +118,7 @@ public class DataMovies {
             final SharedPreferences sharedPrefs=PreferenceManager.getDefaultSharedPreferences(currentActivity);
             final String shortBy;
 
-            if(sharedPrefs.getInt("example_list",1)==1){//todo change example list to another name
+            if(sharedPrefs.getString("example_list","1")=="1"){//todo change example list to another name
                 shortBy="popularity.desc";
                 Log.d("SETT","popularity");
             }else{
