@@ -38,28 +38,27 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="release_date"
-                android:id="@+id/release_date"
-                android:layout_weight="1" />
+                android:id="@+id/release_date" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="original_language"
-                android:id="@+id/original_language"
-                android:layout_weight="1" />
+                android:id="@+id/original_language" />
 
             <RatingBar
+                android:id="@+id/rating_bar"
+                style="?android:attr/ratingBarStyleSmall"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:id="@+id/ratingBar"
+                android:layout_height="wrap_content"
+
+                android:isIndicator="true"
                 android:numStars="5"
-                android:rating="2"
-                android:stepSize="0.5"
-                android:layout_weight="1" />
+                android:stepSize="0.1" />
 
         </LinearLayout>
     </LinearLayout>

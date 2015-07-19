@@ -7,4 +7,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="movies_detail">Movies Detail</string>
     <string name="title_activity_movie_detail">MovieDetailActivity</string>
+
+
 </resources>
