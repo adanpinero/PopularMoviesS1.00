@@ -28,16 +28,16 @@ import com.squareup.picasso.Picasso;
  * @author manish.s
  *
  */
-public class CustomGridViewAdapter extends ArrayAdapter<URL> {
+public class CustomGridViewAdapter extends ArrayAdapter<String> {
     Context context;
     int layoutResourceId;
-    ArrayList<URL> data = new ArrayList<>();
+    ArrayList<String> posterURL = new ArrayList<>();
 
     public CustomGridViewAdapter(Context context, int layoutResourceId,
-                                 ArrayList<URL> data) {
-        super(context, layoutResourceId, data);
+                                 ArrayList<String> posterURLS) {
+        super(context, layoutResourceId, posterURLS);
         this.context = context;
-        this.data = data;
+        this.posterURL = posterURLS;
     }
 
     @Override
@@ -47,11 +47,10 @@ public class CustomGridViewAdapter extends ArrayAdapter<URL> {
         if (gridView == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             gridView = inflater.inflate(R.layout.grid_single, parent, false);
-            TextView textView = (TextView) gridView.findViewById(R.id.grid_text);
+            //TextView textView = (TextView) gridView.findViewById(R.id.grid_text);
             ImageView imageView = (ImageView)gridView.findViewById(R.id.grid_image);
-            textView.setText("Hola");
-            //todo cargar lista de URLs de posters
-            Picasso.with((Activity) context).load(data.get(position).toString()).into(imageView);
+            //textView.setText("Hola");
+            Picasso.with(context).load("http://image.tmdb.org/t/p/"+"w185/"+posterURL.get(position).toString()).error(R.drawable.image1).into(imageView);
 
         }
         else{
