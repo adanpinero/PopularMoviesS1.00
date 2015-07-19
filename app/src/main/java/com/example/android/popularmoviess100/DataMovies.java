@@ -2,8 +2,10 @@ package com.example.android.popularmoviess100;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -76,6 +78,11 @@ public class DataMovies {
         PopularMoviesApiRequest miPOPRequest = new PopularMoviesApiRequest();
         miPOPRequest.execute();
     }
+    //Refresh
+    public void refresh(){
+        PopularMoviesApiRequest miPOPRequest = new PopularMoviesApiRequest();
+        miPOPRequest.execute();
+    }
 
     public void SetAdapter(CustomGridViewAdapter adapter){
         miAdapter=adapter;
@@ -108,6 +115,18 @@ public class DataMovies {
                     "http://api.themoviedb.org/3/discover/movie?"; // Base TheMovieDB API Url
             final String SHORT_PARAM = "sort_by"; // ShortBy API parameter
             final String API_KEY_PARAM = "api_key"; // API key parameter
+            final SharedPreferences sharedPrefs=PreferenceManager.getDefaultSharedPreferences(currentActivity);
+            final String shortBy;
+
+            if(sharedPrefs.getInt("example_list",1)==1){//todo change example list to another name
+                shortBy="popularity.desc";
+                Log.d("SETT","popularity");
+            }else{
+                shortBy="popularity.desc";
+                Log.d("SETT","rate");
+            }
+
+
 
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
@@ -121,7 +140,7 @@ public class DataMovies {
                 // Creo la URL
                 Uri builtUri = Uri.parse(FORECAST_BASE_URL)
                         .buildUpon()
-                        .appendQueryParameter(SHORT_PARAM, "popularity.desc")//todo modificar con settings
+                        .appendQueryParameter(SHORT_PARAM, shortBy)//todo modificar con settings
                         .appendQueryParameter(API_KEY_PARAM, API_KEY)
                         .build();
                 URL url = new URL(builtUri.toString());
