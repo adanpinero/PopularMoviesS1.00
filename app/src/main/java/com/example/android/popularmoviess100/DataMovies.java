@@ -117,7 +117,7 @@ public class DataMovies {
             final String API_KEY_PARAM = "api_key"; // API key parameter
             final SharedPreferences sharedPrefs=PreferenceManager.getDefaultSharedPreferences(currentActivity);
             final String shortBy;
-
+            //todo Conseguir que lea correctamente las preferencias
             if(sharedPrefs.getString("example_list","1")=="1"){//todo change example list to another name
                 shortBy="popularity.desc";
                 Log.d("SETT","popularity");
