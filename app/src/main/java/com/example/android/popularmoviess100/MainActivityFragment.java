@@ -64,6 +64,7 @@ public class MainActivityFragment extends Fragment {
                 // Add detail data to intent to use this data in detail view
                 detail.putExtra("original_language", miDataMovies.getOriginal_language(position));
                 detail.putExtra("original_title", miDataMovies.getOriginal_title(position));
+                Log.d("Intend", miDataMovies.getOriginal_title(position));
                 detail.putExtra("overview", miDataMovies.getOverview(position));
                 detail.putExtra("release_date", miDataMovies.getRelease_date(position));
                 detail.putExtra("posterURLString", miDataMovies.getURLString(position));

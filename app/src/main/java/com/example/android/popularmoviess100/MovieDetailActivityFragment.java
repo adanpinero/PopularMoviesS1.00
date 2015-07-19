@@ -5,14 +5,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class MovieDetailActivityFragment extends Fragment {
-    DataMovies miDataMovies;
-    String original_language;
 
     public MovieDetailActivityFragment() {
     }
@@ -20,15 +23,26 @@ public class MovieDetailActivityFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle miDataMovies=getActivity().getIntent().getExtras();
-        original_language=miDataMovies.getString("original_language");
+
+
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View rootView=inflater.inflate(R.layout.fragment_movie_detail, container, false);
+        TextView original_titleTV=(TextView)rootView.findViewById(R.id.original_title);
+        original_titleTV.setText(getActivity().getIntent().getExtras().getString("original_title"));
+        TextView original_languageTV=(TextView)rootView.findViewById(R.id.original_language);
+        original_languageTV.setText(getActivity().getIntent().getExtras().getString("original_language"));
+        TextView release_dateTV=(TextView)rootView.findViewById(R.id.release_date);
+        release_dateTV.setText(getActivity().getIntent().getExtras().getString("release_date"));
+        TextView overviewTV=(TextView)rootView.findViewById(R.id.overview);
+        overviewTV.setText(getActivity().getIntent().getExtras().getString("overview"));
+        ImageView imageViewPoster = (ImageView)rootView.findViewById(R.id.poster);
+        Picasso.with(rootView.getContext()).load("http://image.tmdb.org/t/p/"+"w185/"+getActivity().getIntent().getExtras().getString("posterURLString")).error(R.drawable.image1).into(imageViewPoster);
 
-        return inflater.inflate(R.layout.fragment_movie_detail, container, false);
+        return rootView;
     }
 }
