@@ -1,10 +1,8 @@
 package com.example.android.popularmoviess100;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.AsyncTask;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,20 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.Toast;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
 
@@ -73,7 +57,16 @@ public class MainActivityFragment extends Fragment {
                 startActivity(detail); // Launch intent for detail activity
             }
         });
-
+        //Refresh data if change SharedPreferences
+        SharedPreferences misPref;
+        misPref= PreferenceManager.getDefaultSharedPreferences(getActivity());
+        misPref.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                // actualizo los datos con la API
+                miDataMovies.refresh();
+            }
+        });
         return rootView;
     }
 

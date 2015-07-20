@@ -15,15 +15,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
 /**
  * Created by Adan on 17/07/2015. A Class to help with DataMovies Data. This class call the API.
  */
+
 public class DataMovies {
-    String SHORT_TYPE="popular"; //todo quitar cuando el tipo de orden sea por settings
     ArrayList<String> poster_URL; // String URL of image posters to show it using Picasso
     // More object to save data from API
     ArrayList<String> original_language;
@@ -38,7 +37,7 @@ public class DataMovies {
 
     //Get method
     public String getURLString(int position){
-        return poster_URL.get(position).toString();
+        return poster_URL.get(position);
     }
     //Get method
     public String getOriginal_language(int position){
@@ -116,14 +115,12 @@ public class DataMovies {
             final String SHORT_PARAM = "sort_by"; // ShortBy API parameter
             final String API_KEY_PARAM = "api_key"; // API key parameter
             final SharedPreferences sharedPrefs=PreferenceManager.getDefaultSharedPreferences(currentActivity);
-            final String shortBy;
 
-            //todo refresh data al actualizar settings
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
 
             // Will contain the raw JSON response as a string.
-            String forecastJsonStr = null;
+            String forecastJsonStr;
             try {
                 // Construct the URL for the OpenWeatherMap query
                 // Possible parameters are avaiable at OWM's forecast API page, at
@@ -144,7 +141,7 @@ public class DataMovies {
 
                 // Read the input stream into a String
                 InputStream inputStream = urlConnection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
+                StringBuilder buffer = new StringBuilder();
                 if (inputStream == null) {
                     // Nothing to do.
                     return null;
