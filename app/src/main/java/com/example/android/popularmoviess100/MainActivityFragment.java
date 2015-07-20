@@ -57,6 +57,7 @@ public class MainActivityFragment extends Fragment {
                 startActivity(detail); // Launch intent for detail activity
             }
         });
+        /*
         //Refresh data if change SharedPreferences
         SharedPreferences misPref;
         misPref= PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -64,11 +65,11 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
                 // actualizo los datos con la API
+                Log.d("ACTUALIZA", "Refresh....lauch(n)");
                 miDataMovies.refresh();
             }
-        });
+        });*/
         return rootView;
     }
-
 }
 

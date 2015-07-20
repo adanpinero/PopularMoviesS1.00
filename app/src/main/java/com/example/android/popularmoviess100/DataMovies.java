@@ -218,9 +218,6 @@ public class DataMovies {
                 vote_average.add(results.getJSONObject(i).getInt("vote_average"));
                 vote_count.add(results.getJSONObject(i).getInt("vote_count"));
             }
-
-            //ArrayList<URL> misPostersURL=getPopularMoviesURLs(posters);
-            //url_init=misPostersURL;
             ActualizaAdapter(poster_URL);
         }
 
