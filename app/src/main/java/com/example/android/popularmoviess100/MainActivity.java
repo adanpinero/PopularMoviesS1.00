@@ -1,6 +1,4 @@
 package com.example.android.popularmoviess100;
-//todo Add Icon to the App
-//todo Change name string to the App
 
 import android.content.Intent;
 import android.os.Bundle;

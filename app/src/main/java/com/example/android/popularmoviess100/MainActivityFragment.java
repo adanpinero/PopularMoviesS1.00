@@ -69,6 +69,8 @@ public class MainActivityFragment extends Fragment {
                 miDataMovies.refresh();
             }
         });*/
+
+
         return rootView;
     }
 }
