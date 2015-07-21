@@ -7,14 +7,12 @@ package com.example.android.popularmoviess100;
 
 import android.content.Context;
 import java.util.ArrayList;
-
-        import android.app.Activity;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.ArrayAdapter;
-        import android.widget.ImageView;
-
+import android.app.Activity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -25,6 +23,7 @@ import com.squareup.picasso.Picasso;
 public class CustomGridViewAdapter extends ArrayAdapter<String> {
     Context context;
     ArrayList<String> posterURL = new ArrayList<>();
+
 
     public CustomGridViewAdapter(Context context, int layoutResourceId,
                                  ArrayList<String> posterURLS) {

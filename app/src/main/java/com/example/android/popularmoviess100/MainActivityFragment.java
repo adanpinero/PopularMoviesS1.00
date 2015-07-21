@@ -1,11 +1,8 @@
 package com.example.android.popularmoviess100;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +18,7 @@ public class MainActivityFragment extends Fragment {
 
     GridView grid; // Grid in fragment_main to show posters
     CustomGridViewAdapter adapter; // The adapter for grid
+
 
     public MainActivityFragment() {
 
@@ -42,36 +40,30 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Intent detail = new Intent(view.getContext(),MovieDetailActivity.class);//Intent for detail view
+                Intent detail = new Intent(view.getContext(), MovieDetailActivity.class);//Intent for detail view
                 miDataMovies.setCurrentActivity(null);//Quit Activity in myDataMovies
                 miDataMovies.SetAdapter(null); // Quit Adapter in myDataMovies
                 // Add detail data to intent to use this data in detail view
                 detail.putExtra("original_language", miDataMovies.getOriginal_language(position));
                 detail.putExtra("original_title", miDataMovies.getOriginal_title(position));
-                Log.d("Intend", miDataMovies.getOriginal_title(position));
                 detail.putExtra("overview", miDataMovies.getOverview(position));
                 detail.putExtra("release_date", miDataMovies.getRelease_date(position));
                 detail.putExtra("posterURLString", miDataMovies.getURLString(position));
                 detail.putExtra("vote_average", miDataMovies.getVote_average(position));
-                detail.putExtra("vote_count",miDataMovies.getVote_count(position));
+                detail.putExtra("vote_count", miDataMovies.getVote_count(position));
                 startActivity(detail); // Launch intent for detail activity
             }
         });
-        /*
-        //Refresh data if change SharedPreferences
-        SharedPreferences misPref;
-        misPref= PreferenceManager.getDefaultSharedPreferences(getActivity());
-        misPref.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                // actualizo los datos con la API
-                Log.d("ACTUALIZA", "Refresh....lauch(n)");
-                miDataMovies.refresh();
-            }
-        });*/
-
 
         return rootView;
+    }
+    public void onStart() {
+        super.onStart();
+        miDataMovies=new DataMovies(getActivity());
+        adapter = new CustomGridViewAdapter(getActivity(), R.id.grid_image, new ArrayList<String>());
+        miDataMovies.SetAdapter(adapter);
+        grid.setAdapter(adapter);
+
     }
 }
 

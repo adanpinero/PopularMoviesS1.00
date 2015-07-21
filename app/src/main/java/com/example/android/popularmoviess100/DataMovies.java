@@ -77,11 +77,6 @@ public class DataMovies {
         PopularMoviesApiRequest miPOPRequest = new PopularMoviesApiRequest();
         miPOPRequest.execute();
     }
-    //Refresh
-    public void refresh(){
-        PopularMoviesApiRequest miPOPRequest = new PopularMoviesApiRequest();
-        miPOPRequest.execute();
-    }
 
     public void SetAdapter(CustomGridViewAdapter adapter){
         miAdapter=adapter;
