@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="original_title"
+        android:text="@string/original_title"
         android:id="@+id/original_title"
         android:layout_weight="0.25" />
 
@@ -24,6 +24,7 @@
         android:layout_weight="1">
 
         <ImageView
+            android:contentDescription="@string/PosterImageContentDescription"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:adjustViewBounds="true"
@@ -90,14 +91,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Overview"
+        android:text="@string/textViewOverViewTitle"
         android:id="@+id/textViewOverViewTitle" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="overview"
+        android:text="@string/textViewOverview"
         android:id="@+id/overview"
         android:layout_gravity="bottom"
         android:layout_weight="1" />

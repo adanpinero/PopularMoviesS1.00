@@ -5,6 +5,10 @@
 
     <string name="movies_detail">Movies Detail</string>
     <string name="title_activity_movie_detail">Movie Detail</string>
+    <string name="original_title">original_title</string>
+    <string name="PosterImageContentDescription">Poster Image</string>
+    <string name="textViewOverViewTitle">Overview</string>
+    <string name="textViewOverview">overview</string>
 
 
 </resources>
