@@ -7,13 +7,13 @@
     <string name="pref_header_general">General</string>
 
 
-    <string name="pref_title_add_friends_to_messages">Short movies by</string>
-    <string-array name="pref_example_list_titles">
+    <string name="pref_title_shortby">Short movies by</string>
+    <string-array name="pref_shortby_list_titles">
         <item>Popularity</item>
         <item>Rate</item>
 
     </string-array>
-    <string-array name="pref_example_list_values">
+    <string-array name="pref_shortby_list_values">
         <item>popularity.desc</item>
         <item>vote_average.desc</item>
 

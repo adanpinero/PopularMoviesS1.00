@@ -124,7 +124,7 @@ public class DataMovies {
 
                 Uri builtUri = Uri.parse(FORECAST_BASE_URL)
                         .buildUpon()
-                        .appendQueryParameter(SHORT_PARAM, sharedPrefs.getString("example_list","popularity.desc"))
+                        .appendQueryParameter(SHORT_PARAM, sharedPrefs.getString("shortby_list","popularity.desc"))
                         .appendQueryParameter(API_KEY_PARAM, API_KEY)
                         .build();
                 URL url = new URL(builtUri.toString());

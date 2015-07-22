@@ -46,9 +46,23 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Release Data"
+                android:id="@+id/textViewReleaseDataTitle" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="original_language"
                 android:id="@+id/original_language" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Original Language"
+                android:id="@+id/textViewOriginalLenguageTitle" />
 
             <RatingBar
                 android:id="@+id/rating_bar"
@@ -60,8 +74,23 @@
                 android:numStars="5"
                 android:stepSize="0.1" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Rate"
+                android:id="@+id/textViewRateTitle" />
+
         </LinearLayout>
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/textView4" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="0dp"
