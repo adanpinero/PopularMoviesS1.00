@@ -24,8 +24,10 @@
         android:layout_weight="1">
 
         <ImageView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
             android:id="@+id/poster"
             android:src="@drawable/image1"
             android:layout_weight="1" />
@@ -88,8 +90,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/textView4" />
+        android:text="Overview"
+        android:id="@+id/textViewOverViewTitle" />
 
     <TextView
         android:layout_width="wrap_content"
