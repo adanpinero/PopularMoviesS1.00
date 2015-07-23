@@ -108,19 +108,7 @@ public class DataMovies implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        /*
-         ArrayList<String> poster_URL; // String URL of image posters to show it using Picasso
-    // More object to save data from API
-    ArrayList<String> original_language;
-    ArrayList<String> original_title;
-    ArrayList<String> overview;
-    ArrayList<String> release_date;
-    ArrayList<Integer> vote_average;
-    ArrayList<Integer> vote_count;
 
-    Activity currentActivity; // Current activity
-    CustomGridViewAdapter miAdapter; // Current adapter
-        */
         dest.writeStringList(poster_URL);
         dest.writeStringList(original_language);
         dest.writeStringList(original_title);
@@ -137,6 +125,11 @@ public class DataMovies implements Parcelable {
         in.readStringList(overview);
         in.readStringList(release_date);
     }
+
+    public ArrayList<String> getPoster_AllURL(){
+        return poster_URL;
+    }
+
     //Call the API to obtain JSON data
     private class PopularMoviesApiRequest extends AsyncTask<Void, Void, String> {
         ProgressDialog enProgreso;

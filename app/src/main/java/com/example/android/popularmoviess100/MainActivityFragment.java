@@ -19,6 +19,7 @@ public class MainActivityFragment extends Fragment {
 
     GridView grid; // Grid in fragment_main to show posters
     CustomGridViewAdapter adapter; // The adapter for grid
+    Boolean recycledData;
 
 
     public MainActivityFragment() {
@@ -29,36 +30,34 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("SI", "onCreate");
         if(savedInstanceState != null && !savedInstanceState.isEmpty()){
             miDataMovies = (DataMovies) savedInstanceState.getParcelable("miDataMovies");
+            miDataMovies.setCurrentActivity(getActivity());
+            recycledData=true;
             Log.d("SI","reciclo");
         }else{
             miDataMovies=new DataMovies(getActivity());
+            recycledData=false;
             Log.d("SI","nuevo");
         }
-        //savedInstanceState.isEmpty();
-        //String aa="not empty";
-        //if (savedInstanceState.isEmpty()){aa="empty";}
-        //Log.d("PAR", aa);
-        //Al crearse de nuevo el fragment comprueba si coge los datos existentes o crea nuevos
-      /*  if(savedInstanceState.getParcelable("miDataMovies")!=null){
-            miDataMovies=savedInstanceState.getParcelable("miDataMovies");
-
-        }else{
-            miDataMovies=new DataMovies(getActivity()); //Create data - empty or from API
-        }*/
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
+        Log.d("SI", "onCreateView");
         View rootView = inflater.inflate(R.layout.fragment_main, container, false); // Create view
         adapter = new CustomGridViewAdapter(getActivity(), R.id.grid_image, new ArrayList<String>()); // Create adapter
         miDataMovies.SetAdapter(adapter); //Set adapter to miDataMovies. On postExecute it will refresh adapter with API data
         grid=(GridView)rootView.findViewById(R.id.grid);
         grid.setAdapter(adapter);
+        if(recycledData){ // Refresh adapter if recycled Data, if new Data the adapter will refresh when asynk task finish
+            adapter.clear();
+            adapter.addAll(miDataMovies.getPoster_AllURL());
+        }
+
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -81,20 +80,23 @@ public class MainActivityFragment extends Fragment {
 
         return rootView;
     }
-    public void onStart() {
+  /*  public void onStart() {
         super.onStart();
-        miDataMovies=new DataMovies(getActivity());
+        Log.d("SI", "onStart");
+        //miDataMovies=new DataMovies(getActivity());
         adapter = new CustomGridViewAdapter(getActivity(), R.id.grid_image, new ArrayList<String>());
+        adapter.clear();
+        adapter.addAll(miDataMovies.getPoster_AllURL());
         miDataMovies.SetAdapter(adapter);
         grid.setAdapter(adapter);
-    }
+        //miDataMovies.ActualizaAdapter();
+    }*/
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putParcelable("miDataMovies", miDataMovies);// coloca el objeto miDataMovies en el Bundle al desaparecer el fragmento
         super.onSaveInstanceState(outState);
+        outState.putParcelable("miDataMovies", miDataMovies);// coloca el objeto miDataMovies en el Bundle al desaparecer el fragmento
+        Log.d("SI", "guardo");
     }
-
-
 }
 
