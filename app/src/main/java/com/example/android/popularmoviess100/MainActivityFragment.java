@@ -3,6 +3,7 @@ package com.example.android.popularmoviess100;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,10 +27,33 @@ public class MainActivityFragment extends Fragment {
     DataMovies miDataMovies; // An object for my DataMovies
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if(savedInstanceState != null && !savedInstanceState.isEmpty()){
+            miDataMovies = (DataMovies) savedInstanceState.getParcelable("miDataMovies");
+            Log.d("SI","reciclo");
+        }else{
+            miDataMovies=new DataMovies(getActivity());
+            Log.d("SI","nuevo");
+        }
+        //savedInstanceState.isEmpty();
+        //String aa="not empty";
+        //if (savedInstanceState.isEmpty()){aa="empty";}
+        //Log.d("PAR", aa);
+        //Al crearse de nuevo el fragment comprueba si coge los datos existentes o crea nuevos
+      /*  if(savedInstanceState.getParcelable("miDataMovies")!=null){
+            miDataMovies=savedInstanceState.getParcelable("miDataMovies");
+
+        }else{
+            miDataMovies=new DataMovies(getActivity()); //Create data - empty or from API
+        }*/
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        miDataMovies=new DataMovies(getActivity()); //Create data - empty or from API
+
         View rootView = inflater.inflate(R.layout.fragment_main, container, false); // Create view
         adapter = new CustomGridViewAdapter(getActivity(), R.id.grid_image, new ArrayList<String>()); // Create adapter
         miDataMovies.SetAdapter(adapter); //Set adapter to miDataMovies. On postExecute it will refresh adapter with API data
@@ -63,7 +87,14 @@ public class MainActivityFragment extends Fragment {
         adapter = new CustomGridViewAdapter(getActivity(), R.id.grid_image, new ArrayList<String>());
         miDataMovies.SetAdapter(adapter);
         grid.setAdapter(adapter);
-
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable("miDataMovies", miDataMovies);// coloca el objeto miDataMovies en el Bundle al desaparecer el fragmento
+        super.onSaveInstanceState(outState);
+    }
+
+
 }
 

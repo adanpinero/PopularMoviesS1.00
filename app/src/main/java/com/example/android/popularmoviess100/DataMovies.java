@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import org.json.JSONArray;
@@ -22,7 +24,7 @@ import java.util.ArrayList;
  * Created by Adan on 17/07/2015. A Class to help with DataMovies Data. This class call the API.
  */
 
-public class DataMovies {
+public class DataMovies implements Parcelable {
     ArrayList<String> poster_URL; // String URL of image posters to show it using Picasso
     // More object to save data from API
     ArrayList<String> original_language;
@@ -34,6 +36,8 @@ public class DataMovies {
 
     Activity currentActivity; // Current activity
     CustomGridViewAdapter miAdapter; // Current adapter
+
+
 
     //Get method
     public String getURLString(int position){
@@ -87,6 +91,52 @@ public class DataMovies {
         this.currentActivity=activity;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+//constructor parcel
+    public DataMovies(Parcel in) {
+        original_language=new ArrayList<>();
+        original_title=new ArrayList<>();
+        overview=new ArrayList<>();
+        release_date=new ArrayList<>();
+        vote_average=new ArrayList<>();
+        vote_count=new ArrayList<>();
+        readFromParcel(in);
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        /*
+         ArrayList<String> poster_URL; // String URL of image posters to show it using Picasso
+    // More object to save data from API
+    ArrayList<String> original_language;
+    ArrayList<String> original_title;
+    ArrayList<String> overview;
+    ArrayList<String> release_date;
+    ArrayList<Integer> vote_average;
+    ArrayList<Integer> vote_count;
+
+    Activity currentActivity; // Current activity
+    CustomGridViewAdapter miAdapter; // Current adapter
+        */
+        dest.writeStringList(poster_URL);
+        dest.writeStringList(original_language);
+        dest.writeStringList(original_title);
+        dest.writeStringList(overview);
+        dest.writeStringList(release_date);
+        //dest.writeIntArray(vote_average.toArray().()); //como string luego lo paso de nuevo a integer
+
+    }
+    private void readFromParcel(Parcel in) {
+
+        in.readStringList(poster_URL);
+        in.readStringList(original_language);
+        in.readStringList(original_title);
+        in.readStringList(overview);
+        in.readStringList(release_date);
+    }
     //Call the API to obtain JSON data
     private class PopularMoviesApiRequest extends AsyncTask<Void, Void, String> {
         ProgressDialog enProgreso;
