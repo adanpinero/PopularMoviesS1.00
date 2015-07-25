@@ -33,6 +33,8 @@ public class DataMovies implements Parcelable {
     ArrayList<String> release_date;
     ArrayList<Integer> vote_average;
     ArrayList<Integer> vote_count;
+    SharedPreferences sharedPrefs;
+    final String shortBy;
 
     Activity currentActivity; // Current activity
     CustomGridViewAdapter miAdapter; // Current adapter
@@ -76,10 +78,18 @@ public class DataMovies implements Parcelable {
 
     }
     //Constructor. Fix activity and call API
-    public DataMovies(Activity activity) {
+    public DataMovies(Activity activity, CustomGridViewAdapter adapter) {
         currentActivity=activity;
+        sharedPrefs=PreferenceManager.getDefaultSharedPreferences(currentActivity);
+        shortBy = sharedPrefs.getString("shortby_list", "popularity.desc");
+        this.miAdapter=adapter;
         PopularMoviesApiRequest miPOPRequest = new PopularMoviesApiRequest();
         miPOPRequest.execute();
+
+    }
+
+    public String getShortBy(){
+        return shortBy;
     }
 
     public void SetAdapter(CustomGridViewAdapter adapter){
@@ -97,12 +107,15 @@ public class DataMovies implements Parcelable {
     }
 //constructor parcel
     public DataMovies(Parcel in) {
+
+        poster_URL=new ArrayList<>();
         original_language=new ArrayList<>();
         original_title=new ArrayList<>();
         overview=new ArrayList<>();
         release_date=new ArrayList<>();
         vote_average=new ArrayList<>();
         vote_count=new ArrayList<>();
+        shortBy = null;
         readFromParcel(in);
     }
 
@@ -114,6 +127,7 @@ public class DataMovies implements Parcelable {
         dest.writeStringList(original_title);
         dest.writeStringList(overview);
         dest.writeStringList(release_date);
+        dest.writeString(shortBy);
         //dest.writeIntArray(vote_average.toArray().()); //como string luego lo paso de nuevo a integer
 
     }
@@ -152,7 +166,7 @@ public class DataMovies implements Parcelable {
                     "http://api.themoviedb.org/3/discover/movie?"; // Base TheMovieDB API Url
             final String SHORT_PARAM = "sort_by"; // ShortBy API parameter
             final String API_KEY_PARAM = "api_key"; // API key parameter
-            final SharedPreferences sharedPrefs=PreferenceManager.getDefaultSharedPreferences(currentActivity);
+
 
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
@@ -167,7 +181,7 @@ public class DataMovies implements Parcelable {
 
                 Uri builtUri = Uri.parse(FORECAST_BASE_URL)
                         .buildUpon()
-                        .appendQueryParameter(SHORT_PARAM, sharedPrefs.getString("shortby_list","popularity.desc"))
+                        .appendQueryParameter(SHORT_PARAM, shortBy)
                         .appendQueryParameter(API_KEY_PARAM, API_KEY)
                         .build();
                 URL url = new URL(builtUri.toString());
@@ -261,6 +275,7 @@ public class DataMovies implements Parcelable {
 
         private void ActualizaAdapter(ArrayList<String> misPostersURL){
             miAdapter.clear();
+            Log.d("SI","Actualizo adapter en DataMovies");
             miAdapter.addAll(misPostersURL);
         }
     }

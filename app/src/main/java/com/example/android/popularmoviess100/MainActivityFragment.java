@@ -1,6 +1,8 @@
 package com.example.android.popularmoviess100;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,27 +22,19 @@ public class MainActivityFragment extends Fragment {
     GridView grid; // Grid in fragment_main to show posters
     CustomGridViewAdapter adapter; // The adapter for grid
     Boolean recycledData;
+    DataMovies miDataMovies; // An object for my DataMovies
+    String preferencesShortFlag;
 
 
     public MainActivityFragment() {
 
     }
-    DataMovies miDataMovies; // An object for my DataMovies
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("SI", "onCreate");
-        if(savedInstanceState != null && !savedInstanceState.isEmpty()){
-            miDataMovies = (DataMovies) savedInstanceState.getParcelable("miDataMovies");
-            miDataMovies.setCurrentActivity(getActivity());
-            recycledData=true;
-            Log.d("SI","reciclo");
-        }else{
-            miDataMovies=new DataMovies(getActivity());
-            recycledData=false;
-            Log.d("SI","nuevo");
-        }
+
     }
 
     @Override
@@ -48,15 +42,24 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         Log.d("SI", "onCreateView");
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false); // Create view
-        adapter = new CustomGridViewAdapter(getActivity(), R.id.grid_image, new ArrayList<String>()); // Create adapter
-        miDataMovies.SetAdapter(adapter); //Set adapter to miDataMovies. On postExecute it will refresh adapter with API data
+        View rootView;
+        if(savedInstanceState != null && !savedInstanceState.isEmpty()){
+            Log.d("SI", "reciclo");
+            miDataMovies = (DataMovies) savedInstanceState.getParcelable("miDataMovies");
+            rootView = inflater.inflate(R.layout.fragment_main, container, false); // Create view
+            adapter = new CustomGridViewAdapter(getActivity(), R.id.grid_image, miDataMovies.getPoster_AllURL()); // Create adapter
+
+        }else{
+            rootView = inflater.inflate(R.layout.fragment_main, container, false); // Create view
+            adapter = new CustomGridViewAdapter(getActivity(), R.id.grid_image, new ArrayList<String>()); // Create adapter
+            miDataMovies=new DataMovies(getActivity(),adapter);
+            //miDataMovies.SetAdapter(adapter); //Set adapter to miDataMovies. On postExecute it will refresh adapter with API data
+            //adapter.clear();
+            //adapter.addAll(miDataMovies.getPoster_AllURL());
+            Log.d("SI", "nuevo - no bundle anterior");
+        }
         grid=(GridView)rootView.findViewById(R.id.grid);
         grid.setAdapter(adapter);
-        if(recycledData){ // Refresh adapter if recycled Data, if new Data the adapter will refresh when asynk task finish
-            adapter.clear();
-            adapter.addAll(miDataMovies.getPoster_AllURL());
-        }
 
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -64,8 +67,8 @@ public class MainActivityFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 Intent detail = new Intent(view.getContext(), MovieDetailActivity.class);//Intent for detail view
-                miDataMovies.setCurrentActivity(null);//Quit Activity in myDataMovies
-                miDataMovies.SetAdapter(null); // Quit Adapter in myDataMovies
+                //miDataMovies.setCurrentActivity(null);//Quit Activity in myDataMovies
+                //miDataMovies.SetAdapter(null); // Quit Adapter in myDataMovies
                 // Add detail data to intent to use this data in detail view
                 detail.putExtra("original_language", miDataMovies.getOriginal_language(position));
                 detail.putExtra("original_title", miDataMovies.getOriginal_title(position));
@@ -77,26 +80,47 @@ public class MainActivityFragment extends Fragment {
                 startActivity(detail); // Launch intent for detail activity
             }
         });
-
         return rootView;
     }
-  /*  public void onStart() {
+
+    public void onStart() {
         super.onStart();
         Log.d("SI", "onStart");
-        //miDataMovies=new DataMovies(getActivity());
-        adapter = new CustomGridViewAdapter(getActivity(), R.id.grid_image, new ArrayList<String>());
-        adapter.clear();
-        adapter.addAll(miDataMovies.getPoster_AllURL());
-        miDataMovies.SetAdapter(adapter);
-        grid.setAdapter(adapter);
-        //miDataMovies.ActualizaAdapter();
-    }*/
+        if(miDataMovies.getShortBy()!=PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("shortby_list", "popularity.desc")){
+            //miDataMovies=new DataMovies(getActivity(),adapter);
+            Log.d("SI", "onStartCambioPrefs");
+            Log.d("SI", "new miDataMovies");
+            adapter.clear();
+            adapter = new CustomGridViewAdapter(getActivity(), R.id.grid_image, new ArrayList<String>()); // Create adapter
+            grid.setAdapter(adapter);
+            grid.refreshDrawableState();
+            miDataMovies=new DataMovies(getActivity(),adapter);
+
+            //grid get adapter en datamovies
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("SI", "onResume");
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        Log.d("SI", "onViewStateRestored");
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+
         outState.putParcelable("miDataMovies", miDataMovies);// coloca el objeto miDataMovies en el Bundle al desaparecer el fragmento
+        outState.putString("ShortMode", PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("shortby_list", "popularity.desc"));
+        preferencesShortFlag=PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("shortby_list", "popularity.desc");
+        super.onSaveInstanceState(outState);
         Log.d("SI", "guardo");
     }
+
 }
 
