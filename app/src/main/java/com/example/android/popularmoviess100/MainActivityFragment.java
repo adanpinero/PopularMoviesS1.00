@@ -49,7 +49,7 @@ public class MainActivityFragment extends Fragment {
 
         grid=(GridView)rootView.findViewById(R.id.grid);
         grid.setAdapter(adapter);
-        if (savedInstanceState != null && !savedInstanceState.isEmpty()){
+        if (savedInstanceState != null && !savedInstanceState.isEmpty()&& miDataMovies.getPoster_AllURL()!=null){
             adapter.addAll(miDataMovies.getPoster_AllURL());}
 
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
