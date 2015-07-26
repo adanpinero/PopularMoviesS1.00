@@ -10,7 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
+
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 
@@ -43,15 +47,18 @@ public class MainActivityFragment extends Fragment {
 
         Log.d("SI", "onCreateView");
         View rootView;
+        rootView = inflater.inflate(R.layout.fragment_main, container, false); // Create view
+        adapter = new CustomGridViewAdapter(getActivity(), R.id.grid_image, new ArrayList<String>()); // Create adapter
+
+
         if(savedInstanceState != null && !savedInstanceState.isEmpty()){
             Log.d("SI", "reciclo");
             miDataMovies = (DataMovies) savedInstanceState.getParcelable("miDataMovies");
-            rootView = inflater.inflate(R.layout.fragment_main, container, false); // Create view
-            adapter = new CustomGridViewAdapter(getActivity(), R.id.grid_image, miDataMovies.getPoster_AllURL()); // Create adapter
+            if(miDataMovies.getPoster_AllURL()==savedInstanceState.getStringArrayList("URLs")){
+                Log.d("SI","URLs coinciden");            }
+
 
         }else{
-            rootView = inflater.inflate(R.layout.fragment_main, container, false); // Create view
-            adapter = new CustomGridViewAdapter(getActivity(), R.id.grid_image, new ArrayList<String>()); // Create adapter
             miDataMovies=new DataMovies(getActivity(),adapter);
             //miDataMovies.SetAdapter(adapter); //Set adapter to miDataMovies. On postExecute it will refresh adapter with API data
             //adapter.clear();
@@ -60,6 +67,8 @@ public class MainActivityFragment extends Fragment {
         }
         grid=(GridView)rootView.findViewById(R.id.grid);
         grid.setAdapter(adapter);
+        if (savedInstanceState != null && !savedInstanceState.isEmpty()){
+            adapter.addAll(miDataMovies.getPoster_AllURL());}
 
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -117,6 +126,7 @@ public class MainActivityFragment extends Fragment {
 
         outState.putParcelable("miDataMovies", miDataMovies);// coloca el objeto miDataMovies en el Bundle al desaparecer el fragmento
         outState.putString("ShortMode", PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("shortby_list", "popularity.desc"));
+        outState.putStringArrayList("URLs",miDataMovies.getPoster_AllURL());
         preferencesShortFlag=PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("shortby_list", "popularity.desc");
         super.onSaveInstanceState(outState);
         Log.d("SI", "guardo");

@@ -9,6 +9,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,6 +36,7 @@ public class DataMovies implements Parcelable {
     ArrayList<String> release_date;
     ArrayList<Integer> vote_average;
     ArrayList<Integer> vote_count;
+    //ArrayList<Picasso> postersPicassos;
     SharedPreferences sharedPrefs;
     final String shortBy;
 
