@@ -98,19 +98,6 @@ public class DataMovies implements Parcelable {
     public int describeContents() {
         return 0;
     }
-/*//constructor parcel
-    public DataMovies(Parcel in) {
-
-        poster_URL=new ArrayList<>();
-        original_language=new ArrayList<>();
-        original_title=new ArrayList<>();
-        overview=new ArrayList<>();
-        release_date=new ArrayList<>();
-        vote_average=new ArrayList<>();
-        vote_count=new ArrayList<>();
-        shortBy = null;
-        readFromParcel(in);
-    }*/
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
@@ -122,15 +109,7 @@ public class DataMovies implements Parcelable {
         dest.writeStringList(release_date);
         dest.writeString(shortBy);
     }
-    /*
-    private void readFromParcel(Parcel in) {
 
-        in.readStringList(poster_URL);
-        in.readStringList(original_language);
-        in.readStringList(original_title);
-        in.readStringList(overview);
-        in.readStringList(release_date);
-    }*/
 
     public ArrayList<String> getPoster_AllURL(){
         return poster_URL;
