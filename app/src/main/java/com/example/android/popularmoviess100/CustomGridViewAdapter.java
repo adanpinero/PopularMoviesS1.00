@@ -37,17 +37,17 @@ public class CustomGridViewAdapter extends ArrayAdapter<String> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View gridView = convertView;
 
-        if (gridView == null) {
+        //if (gridView == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             gridView = inflater.inflate(R.layout.grid_single, parent, false);
             ImageView imageView = (ImageView)gridView.findViewById(R.id.grid_image);
             Picasso.with(context).load("http://image.tmdb.org/t/p/"+"w185/"+posterURL.get(position)).error(R.drawable.image1).into(imageView);
             Log.d("SI","GridViewAdapter position"+Integer.toString(position) );
 
-        }
-        else{
-            gridView = convertView;
-        }
+       // }
+       // else{
+       //     gridView = convertView;
+       // }
         return gridView;
     }
 }
