@@ -10,8 +10,6 @@ import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.squareup.picasso.Picasso;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,7 +34,6 @@ public class DataMovies implements Parcelable {
     ArrayList<String> release_date;
     ArrayList<Integer> vote_average;
     ArrayList<Integer> vote_count;
-    //ArrayList<Picasso> postersPicassos;
     SharedPreferences sharedPrefs;
     final String shortBy;
 
@@ -96,20 +93,12 @@ public class DataMovies implements Parcelable {
         return shortBy;
     }
 
-    public void SetAdapter(CustomGridViewAdapter adapter){
-        miAdapter=adapter;
-    }
-
-    public void setCurrentActivity(Activity activity){
-
-        this.currentActivity=activity;
-    }
 
     @Override
     public int describeContents() {
         return 0;
     }
-//constructor parcel
+/*//constructor parcel
     public DataMovies(Parcel in) {
 
         poster_URL=new ArrayList<>();
@@ -121,7 +110,7 @@ public class DataMovies implements Parcelable {
         vote_count=new ArrayList<>();
         shortBy = null;
         readFromParcel(in);
-    }
+    }*/
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
@@ -132,9 +121,8 @@ public class DataMovies implements Parcelable {
         dest.writeStringList(overview);
         dest.writeStringList(release_date);
         dest.writeString(shortBy);
-        //dest.writeIntArray(vote_average.toArray().()); //como string luego lo paso de nuevo a integer
-
     }
+    /*
     private void readFromParcel(Parcel in) {
 
         in.readStringList(poster_URL);
@@ -142,7 +130,7 @@ public class DataMovies implements Parcelable {
         in.readStringList(original_title);
         in.readStringList(overview);
         in.readStringList(release_date);
-    }
+    }*/
 
     public ArrayList<String> getPoster_AllURL(){
         return poster_URL;
@@ -254,7 +242,6 @@ public class DataMovies implements Parcelable {
         // Get data from JSON
         private void getPopularMoviesFromJson(String forecastJsonStr)
                 throws JSONException {
-            //ArrayList<String> posters=new ArrayList<>();
             poster_URL=new ArrayList<>();
             original_language=new ArrayList<>();
             original_title=new ArrayList<>();
@@ -264,7 +251,7 @@ public class DataMovies implements Parcelable {
             vote_count=new ArrayList<>();
 
             JSONObject forecastJson = new JSONObject(forecastJsonStr);
-            JSONArray results = forecastJson.getJSONArray("results"); // aqui todos los datos de cada peli en Array
+            JSONArray results = forecastJson.getJSONArray("results");
             for(int i=0;i<results.length();i++){
                 poster_URL.add(results.getJSONObject(i).getString("poster_path"));
                 original_title.add(results.getJSONObject(i).getString("original_title"));
@@ -279,9 +266,7 @@ public class DataMovies implements Parcelable {
 
         private void ActualizaAdapter(ArrayList<String> misPostersURL){
             miAdapter.clear();
-            Log.d("SI","Actualizo adapter en DataMovies");
             miAdapter.addAll(misPostersURL);
         }
     }
-
 }

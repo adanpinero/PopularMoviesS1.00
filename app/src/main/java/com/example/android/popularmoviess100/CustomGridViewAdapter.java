@@ -8,7 +8,6 @@ package com.example.android.popularmoviess100;
 import android.content.Context;
 import java.util.ArrayList;
 import android.app.Activity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,19 +34,13 @@ public class CustomGridViewAdapter extends ArrayAdapter<String> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View gridView = convertView;
+        View gridView;
 
-        //if (gridView == null) {
-            LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-            gridView = inflater.inflate(R.layout.grid_single, parent, false);
-            ImageView imageView = (ImageView)gridView.findViewById(R.id.grid_image);
-            Picasso.with(context).load("http://image.tmdb.org/t/p/"+"w185/"+posterURL.get(position)).error(R.drawable.image1).into(imageView);
-            Log.d("SI","GridViewAdapter position"+Integer.toString(position) );
+        LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+        gridView = inflater.inflate(R.layout.grid_single, parent, false);
+        ImageView imageView = (ImageView)gridView.findViewById(R.id.grid_image);
+        Picasso.with(context).load("http://image.tmdb.org/t/p/"+"w185/"+posterURL.get(position)).error(R.drawable.image1).into(imageView);
 
-       // }
-       // else{
-       //     gridView = convertView;
-       // }
         return gridView;
     }
 }
