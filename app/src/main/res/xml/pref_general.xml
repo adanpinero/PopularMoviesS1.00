@@ -10,10 +10,11 @@
     <ListPreference
         android:key="shortby_list"
         android:title="@string/pref_title_shortby"
-        android:defaultValue="1"
+        android:defaultValue="popularity.desc"
         android:entries="@array/pref_shortby_list_titles"
         android:entryValues="@array/pref_shortby_list_values"
         android:negativeButtonText="@null"
-        android:positiveButtonText="@null" />
+        android:positiveButtonText="@null"
+        />
 
 </PreferenceScreen>
