@@ -35,8 +35,15 @@ public class MovieDetailActivity extends AppCompatActivity {
             Intent launchSettings=new Intent(this,SettingsActivity.class);
             startActivity(launchSettings);
             return true;
+        }else{
+            this.onBackPressed();
+            return true;
         }
+        //return super.onOptionsItemSelected(item);
+    }
 
-        return super.onOptionsItemSelected(item);
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }
